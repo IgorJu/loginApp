@@ -7,14 +7,16 @@
 
 import UIKit
 
-class BioViewController: UIViewController {
-
+final class BioViewController: UIViewController {
+    
+    @IBOutlet var descriptionTextView: UITextView!
+    
+    var user: User?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    
+        setupGradient()
+        descriptionTextView.text = user?.person.description
     }
     
-
-
 }

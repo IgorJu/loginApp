@@ -7,31 +7,47 @@
 
 import UIKit
 
-class PersonViewController: UIViewController {
+final class PersonViewController: UIViewController {
     
-    private let primaryColor = UIColor(
-        red: 0/255,
-        green: 255/255,
-        blue: 127/255,
-        alpha: 1
-    )
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var surnameLabel: UILabel!
+    @IBOutlet var ageLabel: UILabel!
+    @IBOutlet var zodiacLabel: UILabel!
+    @IBOutlet var englishLevelLabel: UILabel!
     
-    private let secondaryColor = UIColor(
-        red: 138/255,
-        green: 43/255,
-        blue: 226/255,
-        alpha: 1
-    )
+    @IBOutlet var navigationTitle: UINavigationItem!
+    @IBOutlet var avatarImageView: UIImageView!
+    
+    var user: User?
+            
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
+        setupGradient()
+        setupLabels()
+        navigationTitle.title = user?.person.fullname
+        avatarImageView.image = UIImage(named: user?.person.avatar ?? "pencil")
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let bioVC = segue.destination as? BioViewController  else { return }
+        bioVC.user = user
     }
     
     
     @IBAction func showBioViewController() {
-performSegue(withIdentifier: "showBioVC", sender: nil)
+        performSegue(withIdentifier: "showBioVC", sender: nil)
     }
+    
+    private func setupLabels() {
+        nameLabel.text = user?.person.name
+        surnameLabel.text = user?.person.surname
+        zodiacLabel.text = user?.person.zodiac
+        ageLabel.text = user?.person.age
+        englishLevelLabel.text = user?.person.englishLevel
+    }
+    
 }
 
         

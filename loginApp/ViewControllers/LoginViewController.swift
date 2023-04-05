@@ -15,9 +15,19 @@ final class LoginViewController: UIViewController {
     private let user = User.getPerson()
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
-        welcomeVC.userName = user.login
-        welcomeVC.personName = user.person.fullname
+        guard let tabbarVC = segue.destination as? UITabBarController else { return }
+        guard let viewControllers = tabbarVC.viewControllers else { return }
+
+        viewControllers.forEach { viewController in
+            if let welcomeVC = viewController as? WelcomeViewController {
+                welcomeVC.user = user
+            } else if let navigationVC = viewController as? UINavigationController {
+                guard let personVC = navigationVC.topViewController as? PersonViewController else { return }
+                personVC.user = user
+            } else if let animalVC = viewController as? AnimalViewController {
+                animalVC.user = user
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -58,3 +68,4 @@ final class LoginViewController: UIViewController {
         present(alertController, animated: true)
     }
 }
+

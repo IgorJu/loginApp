@@ -12,31 +12,13 @@ final class WelcomeViewController: UIViewController {
     @IBOutlet var greetingLabel: UILabel!
     @IBOutlet var nameOfPersonLabel: UILabel!
 
-    @IBOutlet var tabbarController: UITabBar!
-    
-    var userName = ""
-    var personName = ""
-    
-    private let primaryColor = UIColor(
-        red: 0/255,
-        green: 255/255,
-        blue: 127/255,
-        alpha: 1
-    )
-    
-    private let secondaryColor = UIColor(
-        red: 138/255,
-        green: 43/255,
-        blue: 226/255,
-        alpha: 1
-    )
-
-    
+    var user: User?
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
-        greetingLabel.text = "Welcome, \(userName)"
-        nameOfPersonLabel.text = "My name is - \(personName)"
+        setupGradient()
+        greetingLabel.text = "Welcome, \(user?.login ?? "")"
+        nameOfPersonLabel.text = "My name is - \(user?.person.fullname ?? "")"
     }
 }
 
@@ -51,4 +33,31 @@ extension UIView {
         gradient.endPoint = CGPoint(x: 0, y: 1)
         layer.insertSublayer(gradient, at: 0)
     }
+    
 }
+//MARK: - fast setup gradient
+extension UIViewController {
+    func setupGradient() {
+        let primaryColor = UIColor(
+            red: 0/255,
+            green: 255/255,
+            blue: 127/255,
+            alpha: 1
+        )
+        
+        let secondaryColor = UIColor(
+            red: 138/255,
+            green: 43/255,
+            blue: 226/255,
+            alpha: 1
+        )
+        
+        view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
+    }
+}
+
+    
+
+
+
+
